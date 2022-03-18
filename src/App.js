@@ -1,27 +1,38 @@
 import React, { useState } from 'react';
 import data from './data';
 function App() {
-  const [textData, setTextData] = useState(data);
-  const [textValue, setTextValue] = useState("");
+  const [textData, setTextData] = useState(data.random);
+  const [inputValue, setInputValue] = useState({
+    topic: "",
+    count: "",
+  });
   const [numParagraph, setNumParagraph] = useState(0);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setInputValue((inputValue) => ({
+      ...inputValue,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (textValue > 8) {
+    if (inputValue.count > 8) {
       setNumParagraph(8);
     } 
-    else if (textValue < 0) {
+    else if (inputValue.count < 0) {
       setNumParagraph(1);
     } 
     else {
-      setNumParagraph(textValue)
+      setNumParagraph(inputValue.count)
     }
+
+    setTextData(data[`${inputValue.topic}`])
   };
 
-  const handleChange = (event) => {
-    setTextValue(event.target.value);
-  };
 
   return (
     <section className='section-center'>
@@ -29,10 +40,25 @@ function App() {
 
       <form className='lorem-form' onSubmit={handleSubmit}>
         <label>
+          Select the Topic:
+          <select
+            name="topic"
+            value={inputValue.topic}
+            onChange={handleChange}>
+              {Object.keys(data).map((keyName, index) => {
+                return (
+                  <option key={index} value={keyName}>{keyName}</option>
+                )
+              })}
+          </select>
+        </label>
+
+        <label>
           Paragraphs:
           <input 
             type='number'
-            value={textValue}
+            name='count'
+            value={inputValue.count}
             onChange={(event)=>handleChange(event)}>
           </input>
           <button type='submit' className='btn'>GENERATE</button>
