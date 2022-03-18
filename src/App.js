@@ -5,10 +5,6 @@ function App() {
   const [textValue, setTextValue] = useState("");
   const [numParagraph, setNumParagraph] = useState(0);
 
-  const handleSelect = (event) => {
-    event.preventDefault();
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -34,16 +30,6 @@ function App() {
       <form className='lorem-form' onSubmit={handleSubmit}>
         <label>
           Paragraphs:
-          <input 
-            type='number'
-            value={textValue}
-            onChange={(event)=>handleChange(event)}>
-          </input>
-          <button type='submit' className='btn'>GENERATE</button>
-        </label>
-
-        <label>
-          Select the Topic:
           <input 
             type='number'
             value={textValue}
